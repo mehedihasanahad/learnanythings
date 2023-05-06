@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: Font_Regular;
+        src: url('./../../public/assets/static/fonts/PT_Serif/PTSerif-Regular.ttf');
+    }
+    @font-face {
+        font-family: Font_bold;
+        src: url('./../../public/assets/static/fonts/PT_Serif/PTSerif-Bold.ttf');
+    }
+    @font-face {
+        font-family: Font_italic;
+        src: url('./../../public/assets/static/fonts/PT_Serif/PTSerif-Italic.ttf');
+    }
+    @font-face {
+        font-family: Font_boldItalic;
+        src: url('./../../public/assets/static/fonts/PT_Serif/PTSerif-BoldItalic.ttf');
+    }
+}
+
+@layer utilities {
+    .font-regular {
+        font-family: Font_Regular
+    }
+    .font-bold {
+        font-family: Font_bold
+    }
+    .font-italic {
+        font-family: Font_italic
+    }
+    .font-bolditalic {
+        font-family: Font_boldItalic
+    }
+    .is-pinned {
+        height: 70px;
+        /* padding-bottom: 50px; */
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    .is-pinned > div {
+        height: 70px;
+        align-items: center;
+    }
+    .is-pinned #logo img{
+        width: 75%;
+    }
+}
