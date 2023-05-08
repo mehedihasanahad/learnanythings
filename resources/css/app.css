@@ -47,4 +47,14 @@
     .is-pinned #logo img{
         width: 75%;
     }
+
+    .header-svg {
+        position: absolute;
+        width: auto;
+        height: fit-content;
+        z-index: 1;
+        background: url("./../../public/assets/header-bg.svg") center 15% no-repeat;
+        background-size: contain;
+        overflow:visible;
+    }
 }
