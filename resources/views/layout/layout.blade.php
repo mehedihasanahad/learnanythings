@@ -7,15 +7,15 @@
     <title>@yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-slate-200 font-regular">
+<body class="bg-slate-100 font-regular">
     <main>
-        <header id="header" class="h-12 mt-4 lg:mt-10 sticky top-0">
+        <header id="header" class="h-12 mt-4 lg:mt-10 sticky top-0 z-50">
             @includeIf('subviews.layout.header')
         </header>
         <section class="lg:w-[1200px] lg:m-auto px-2">
             @yield('pages')
         </section>
-        <footer>
+        <footer class="bg-white">
             @includeIf('subviews.layout.footer')
         </footer>
     </main>
@@ -26,7 +26,7 @@
             if(window.pageYOffset >= header.offsetTop)
                 header.classList.add('is-pinned');
             else
-                header.classList.remove('is-pinned');    
+                header.classList.remove('is-pinned');
         }
         @stack('scripts')
     </script>
