@@ -8,17 +8,17 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-slate-100 font-regular">
+    <header id="header" class="h-12 mt-4 lg:mt-10 sticky top-0 z-50">
+        @includeIf('subviews.layout.header')
+    </header>
     <main>
-        <header id="header" class="h-12 mt-4 lg:mt-10 sticky top-0 z-50">
-            @includeIf('subviews.layout.header')
-        </header>
         <section class="lg:w-[1200px] lg:m-auto px-2">
             @yield('pages')
         </section>
-        <footer class="bg-white">
-            @includeIf('subviews.layout.footer')
-        </footer>
     </main>
+    <footer class="bg-white">
+        @includeIf('subviews.layout.footer')
+    </footer>
     <script src="{{asset('assets/js/commonFunction.js')}}"></script>
     <script defer>
         const header = CF.getElement('header');
