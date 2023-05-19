@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['web'])->group(function () {
     Route::get('/', function () {
         return view('pages.hero');
+    });
+    Route::get('/tag/{tag_name}', function (Request $request) {
+        $title = $request->tag_name;
+        return view('pages.tag', compact('title'));
+    });
+
+    Route::get('/{name}', function (Request $request) {
+        $title = 'Agenda';
+        return view('pages.details', compact('title'));
     });
 
 
