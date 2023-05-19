@@ -1,7 +1,7 @@
 <div class="flex justify-between lg:w-[1200px] lg:m-auto px-2" title="flower">
-    <div id="logo">
+    <a href="{{URL::to('/')}}" id="logo">
         <img src="{{asset('assets/static/images/logo.svg')}}" alt="">
-    </div>
+    </a>
     <nav>
         <ul class="flex justify-center items-center [&_li]:cursor-pointer font-bold text-lg">
             <li class="mr-4">

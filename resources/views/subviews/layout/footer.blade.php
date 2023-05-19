@@ -43,14 +43,11 @@
             @endforeach
         </div>
         <div>
-            <h1 class="font-bold text-xl">Latest posts</h1>
+            <h1 class="font-bold text-xl">Tags</h1>
             <br/>
             <div class="flex gap-2 flex-wrap">
                 @foreach([1,2,3,4,5] as $index=>$value)
-                    <div class="flex items-center bg-slate-200 py-1 px-3.5 rounded-[20px]">
-                        <div class="w-2 h-2 rounded-full mr-2 bg-violet-800"></div>
-                        <p class="text-sm font-thin">Food</p>
-                    </div>
+                    @includeIf('subviews.component.bullet_tag')
                 @endforeach
             </div>
         </div>
