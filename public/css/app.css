@@ -1129,10 +1129,6 @@ video {
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
-.\[\&_li\]\:p-2 li {
-  padding: 0.5rem;
-}
-
 .\[\&_li\]\:p-1 li {
   padding: 0.25rem;
 }

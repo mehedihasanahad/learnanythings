@@ -112,9 +112,7 @@
     <div class="mt-10">
         <h1 class="text-xl font-semibold tracking-wide">PREVIOUS POSTS</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-2">
-            @foreach([1,2,3,4,5,6] as $key => $value)
-                @includeIf('subviews.component.card')
-            @endforeach
+            @each('subviews.component.card', [1,2,3,4,5,6], 'item')
         </div>
         <div class="flex justify-center my-8">
             <button class="rounded-3xl bg-yellow-400 py-3 px-5 hover:px-7 font-bold text-lg transition-all duration-200">LOAD MORE</button>

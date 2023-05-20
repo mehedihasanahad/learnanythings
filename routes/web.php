@@ -26,14 +26,6 @@ Route::middleware(['web'])->group(function () {
         $title = 'Agenda';
         return view('pages.details', compact('title'));
     });
-
-
-
-
-    // Fallback route
-    Route::fallback(function() {
-        return redirect()->to('/');
-    });
 });
 
 
