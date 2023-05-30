@@ -53,9 +53,7 @@
                 <div class="mt-10">
                     <h1 class="text-xl font-semibold tracking-wide">Tags</h1>
                     <div class="mt-2 flex flex-wrap gap-2">
-                        @foreach([1, 2, 3, 4, 5, 6] as $key => $value)
-                            @includeIf('subviews.component.bullet_tag')
-                        @endforeach
+                        @each('subviews.component.bullet_tag', [1, 2, 3, 4, 5, 6], 'item')
                     </div>
                 </div>
 

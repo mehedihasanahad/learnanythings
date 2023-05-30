@@ -46,9 +46,7 @@
             <h1 class="font-bold text-xl">Tags</h1>
             <br/>
             <div class="flex gap-2 flex-wrap">
-                @foreach([1,2,3,4,5] as $index=>$value)
-                    @includeIf('subviews.component.bullet_tag')
-                @endforeach
+                @each('subviews.component.bullet_tag', [1, 2, 3, 4, 5], 'item')
             </div>
         </div>
     </div>
