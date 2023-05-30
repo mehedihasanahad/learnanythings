@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 Route::middleware(['web', 'auth'])->group(function () {
     // Secure routes
     Route::get('dashboard', function () {
-       return view('admin.layout.admin');
+       return view('admin.pages.dashboard');
     })->name('dashboard');
 
 
@@ -24,6 +24,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         // Authenticator Routes
         Route::get('/register', 'UserController@register')->name('register');
         Route::post('/signin', 'UserController@signin')->name('signin');
+        Route::get('/logout', 'UserController@logout')->name('logout');
         Route::resource('login', 'UserController')->only(['index', 'store']);
 
 
@@ -36,10 +37,10 @@ Route::middleware(['web', 'auth'])->group(function () {
             return view('pages.tag', compact('title'));
         });
 
-//    Route::get('/{name}', function (Request $request) {
-//        $title = 'Agenda';
-//        return view('pages.details', compact('title'));
-//    });
+        Route::get('/topic/{name}', function (Request $request) {
+            $title = 'Agenda';
+            return view('pages.details', compact('title'));
+        })->name('blog');
     });
 });
 

@@ -117,6 +117,17 @@ class UserController extends Controller
             return back()->withErrors('These credentials do not match our records.');
         }
     }
+
+    public function logout(Request $request) {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
+
     public function register() {
         return view('admin.auth.signup');
     }
