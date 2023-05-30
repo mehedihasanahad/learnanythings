@@ -13,7 +13,7 @@
             @endforeach
         </div>
         <h1 class="mt-2 text-xl font-bold">
-            <a href="{{URL::to('/new-blog-here')}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
+            <a href="{{route('blog', 'new-blog-here')}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
                 Never let your memories be greater than your dreams
             </a>
         </h1>
