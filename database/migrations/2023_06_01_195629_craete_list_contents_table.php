@@ -31,8 +31,8 @@ class CraeteListContentsTable extends Migration
             $table->longText('content');
             $table->string('image');
             $table->string('small_img');
-            $table->tinyInteger('is_featured');
-            $table->tinyInteger('status');
+            $table->tinyInteger('is_featured')->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

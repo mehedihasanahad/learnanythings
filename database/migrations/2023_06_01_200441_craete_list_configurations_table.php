@@ -17,7 +17,7 @@ class CraeteListConfigurationsTable extends Migration
             $table->increments('id');
             $table->string('key');
             $table->string('value');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(0);
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

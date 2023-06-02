@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -17,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.auth.login');
+        return view('admin.pages.users.list');
     }
 
     /**
@@ -38,25 +34,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required|confirmed|min:8',
-//            'password_confirmation' => 'required|min:8'
-        ]);
-
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        if ($user->id) {
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                $request->session()->regenerate();
-                return redirect()->intended('dashboard');
-            }
-        }
+        //
     }
 
     /**
@@ -102,33 +80,5 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function signin(Request $request) {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $request->session()->regenerate();
-            return redirect()->intended('dashboard');
-        } else {
-            return back()->withErrors('These credentials do not match our records.');
-        }
-    }
-
-    public function logout(Request $request) {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
-    }
-
-    public function register() {
-        return view('admin.auth.signup');
     }
 }

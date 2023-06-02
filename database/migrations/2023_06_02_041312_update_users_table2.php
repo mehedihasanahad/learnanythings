@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUsersTable extends Migration
+class UpdateUsersTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,7 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->nullable();
-            $table->tinyInteger('is_blocked')->default(0)->comment('1 = blocked; 0 = alive;');
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
+            $table->unsignedInteger('role_id')->default(1)->comment('1 = normal user;');
         });
     }
 

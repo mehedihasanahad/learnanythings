@@ -17,16 +17,19 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('dashboard', function () {
        return view('admin.pages.dashboard');
     })->name('dashboard');
+    Route::get('/user/profile', 'LoginController@profile')->name('profile');
+
+
 
 
     // Route without authenticated
     Route::withoutMiddleware('auth')->group(function() {
         // Authenticator Routes
-        Route::get('/register', 'UserController@register')->name('register');
-        Route::post('/signin', 'UserController@signin')->name('signin');
-        Route::get('/logout', 'UserController@logout')->name('logout');
-        Route::resource('login', 'UserController')->only(['index', 'store']);
-
+        Route::get('/register', 'LoginController@register')->name('register');
+        Route::post('/signin', 'LoginController@signin')->name('signin');
+        Route::get('/logout', 'LoginController@logout')->name('logout');
+        Route::resource('login', 'LoginController')->only(['index', 'store']);
+        Route::resource('users', 'UserController');
 
         //Client routes
         Route::get('/', function () {

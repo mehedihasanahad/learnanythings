@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CraeteTagsTable extends Migration
+class CraetePermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,23 @@ class CraeteTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('role_id');
             $table->string('name');
-            $table->string('details');
-            $table->string('image');
-            $table->string('small_img');
-            $table->string('parent');
-            $table->string('bullet_color');
-            $table->tinyInteger('is_featured')->default(0);
+            $table->json('permission_lists');
+            $table->string('table_name');
+            $table->string('details')->nullable();
+            $table->string('image')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
+            $table->foreign('role_id')
+                ->references('id')
+                ->on('roles')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 
