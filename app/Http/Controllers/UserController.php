@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
@@ -23,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.users.create');
     }
 
     /**
@@ -80,5 +82,19 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function userList() {
+        $users = User::where(['is_blocked' => 0])->orderByDesc('id');
+        return DataTables::of($users)
+            ->addColumn('action', function($row){
+                $btn = '
+                <a href="javascript:void(0)" style="border-radius: 2px; background: rgba(0, 0 ,0 , 0.5); padding: 6px; color: white;">Edit</a>
+                <a href="javascript:void(0)" style="border-radius: 2px; background: rgba(0, 0 ,0 , 0.5); padding: 6px; color: white;">View</a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);
     }
 }

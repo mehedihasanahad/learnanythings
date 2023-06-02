@@ -18,7 +18,10 @@ Route::middleware(['web', 'auth'])->group(function () {
        return view('admin.pages.dashboard');
     })->name('dashboard');
     Route::get('/user/profile', 'LoginController@profile')->name('profile');
-
+    Route::get('/users/list', 'UserController@userList');
+    Route::get('/roles/list', 'RolesController@roleList');
+    Route::resource('users', 'UserController');
+    Route::resource('roles', 'RolesController');
 
 
 
@@ -28,8 +31,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/register', 'LoginController@register')->name('register');
         Route::post('/signin', 'LoginController@signin')->name('signin');
         Route::get('/logout', 'LoginController@logout')->name('logout');
+
+
         Route::resource('login', 'LoginController')->only(['index', 'store']);
-        Route::resource('users', 'UserController');
+
 
         //Client routes
         Route::get('/', function () {

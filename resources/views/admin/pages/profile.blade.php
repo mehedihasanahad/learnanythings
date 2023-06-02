@@ -29,7 +29,7 @@
                                         <label class="block text-sm font-medium mb-1" for="name">
                                             Name
                                         </label>
-                                        <input  class="form-input w-full mt-1 block w-full" id="name" type="text" wire:model.defer="state.name" autocomplete="name">
+                                        <input  class="form-input w-full mt-1 block" id="name" type="text" wire:model.defer="state.name" autocomplete="name">
                                     </div>
 
                                     <!-- Email -->

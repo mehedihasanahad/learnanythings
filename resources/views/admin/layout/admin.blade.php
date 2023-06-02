@@ -10,9 +10,29 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
 
     <!-- Styles -->
-    <style >
+    <style>
+        .dataTables_wrapper .dataTables_length select {
+            min-width: 70px;
+        }
+        .edit-btn {
+            border-radius: 2px;
+            background: #86EFAC;
+            padding: 6px;
+            color: #166534;
+            margin-left: 2px;
+        }
+
+        .delete-btn {
+            border-radius: 2px;
+            background: #FCA5A5;
+            padding: 6px;
+            color: #A61B1B;
+            margin-left: 2px;
+        }
+
         [wire\:loading], [wire\:loading\.delay], [wire\:loading\.inline-block], [wire\:loading\.inline], [wire\:loading\.block], [wire\:loading\.flex], [wire\:loading\.table], [wire\:loading\.grid], [wire\:loading\.inline-flex] {
             display: none;
         }
@@ -40,7 +60,7 @@
 
 </head>
 <body
-    class="font-inter antialiased bg-slate-100 text-slate-600"
+    class="font-regular antialiased bg-slate-100 text-slate-600"
     :class="{ 'sidebar-expanded': sidebarExpanded }"
     x-data="{ sidebarOpen: false, sidebarExpanded: localStorage.getItem('sidebar-expanded') == 'true' }"
     x-init="$watch('sidebarExpanded', value => localStorage.setItem('sidebar-expanded', value))"
@@ -56,7 +76,16 @@
             @includeIf('admin.subviews.layout.header')
         </header>
 
-        <main>
+        <main class="px-4 sm:px-6 lg:px-8 py-8">
+            {{--success message--}}
+            @if(Session::has('success'))
+                <p class="w-full p-2 rounded bg-green-300 text-green-800">{{ Session::get('success') }}</p>
+            @endif
+            {{--Failed message--}}
+            @if(Session::has('error'))
+                <p class="w-full p-2 rounded bg-red-300 text-red-800">{{ Session::get('error') }}</p>
+            @endif
+
             @yield('admin_pages')
         </main>
     </div>
@@ -64,5 +93,8 @@
 
 <!-- Scripts -->
 <script type="module" src="{{asset('js/app.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+@stack('admin_script')
 </body>
 </html>
