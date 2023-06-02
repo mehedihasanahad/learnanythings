@@ -287,7 +287,7 @@
                     @click.prevent="open = !open"
                     :aria-expanded="open"
                 >
-                    {{--                                <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name=m+h+a&amp;color=7F9CF5&amp;background=EBF4FF" width="32" height="32" alt="mehedi hasan ahad" />--}}
+                    <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name=m+h+a&amp;color=7F9CF5&amp;background=EBF4FF" width="32" height="32" alt="mehedi hasan ahad" />
                     <div class="flex items-center truncate">
                         <span class="truncate ml-2 text-sm font-medium group-hover:text-slate-800">mehedi hasan ahad</span>
                         <svg class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400" viewBox="0 0 12 12">
@@ -314,7 +314,7 @@
                     </div>
                     <ul>
                         <li>
-                            <a class="font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3" href="http://127.0.0.1:8081/user/profile" @click="open = false" @focus="open = true" @focusout="open = false">Settings</a>
+                            <a class="font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3" href="{{route('profile')}}" @click="open = false" @focus="open = true" @focusout="open = false">Settings</a>
                         </li>
                         <li>
                             <form method="GET" action="{{route('logout')}}" x-data>

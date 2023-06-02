@@ -1,7 +1,7 @@
 @extends('admin.layout.admin')
 @section('admin_title', 'Dashboard')
 @section('admin_pages')
-    <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+    <div class="w-full max-w-9xl mx-auto">
 
         <!-- Welcome banner -->
         <div class="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">

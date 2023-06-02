@@ -2,7 +2,7 @@
 @section('title', $title)
 @section('pages')
     @php
-        $template_type = 'list';
+        $template_type = 'd';
     @endphp
     <div class="mt-10">
         @if($template_type === 'list')
