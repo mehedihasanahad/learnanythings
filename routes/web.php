@@ -18,10 +18,12 @@ Route::middleware(['web', 'auth'])->group(function () {
        return view('admin.pages.dashboard');
     })->name('dashboard');
     Route::get('/user/profile', 'LoginController@profile')->name('profile');
-    Route::get('/users/list', 'UserController@userList');
-    Route::get('/roles/list', 'RolesController@roleList');
+    Route::get('/users/list', 'UserController@List');
+    Route::get('/roles/list', 'RolesController@List');
+    Route::get('/permissions/list', 'PermissionController@List');
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RolesController');
+    Route::resource('permissions', 'PermissionController');
 
 
 

@@ -133,8 +133,8 @@ class RolesController extends Controller
         }
     }
 
-    public function roleList() {
-        $users = Role::orderByDesc('id');
+    public function List() {
+        $users = Role::orderByDesc('id')->get();
         return DataTables::of($users)
             ->addColumn('action', function($row){
                 $btn = '

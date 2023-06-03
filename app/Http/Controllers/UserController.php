@@ -84,7 +84,7 @@ class UserController extends Controller
         //
     }
 
-    public function userList() {
+    public function List() {
         $users = User::where(['is_blocked' => 0])->orderByDesc('id');
         return DataTables::of($users)
             ->addColumn('action', function($row){
