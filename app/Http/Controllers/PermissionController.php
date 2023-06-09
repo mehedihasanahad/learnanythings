@@ -125,7 +125,6 @@ class PermissionController extends Controller
             $permission->permission_lists = json_encode($request->permissions);
             $permission->table_name = $request->table_name;
             $permission->status = $request->status;
-            $permission->created_by = $request->user()->id;
             $permission->updated_by = $request->user()->id;
             $permission->save();
 

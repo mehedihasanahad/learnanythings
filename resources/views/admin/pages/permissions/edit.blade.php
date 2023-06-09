@@ -61,7 +61,7 @@
             {{--        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">--}}
             <div class="flex items-end justify-end gap-x-2 mt-2">
                 <a href="{{route('permissions.index')}}" class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Back</a>
-                <button class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Create</button>
+                <button class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Update</button>
             </div>
             {{--        </div>--}}
         </div>

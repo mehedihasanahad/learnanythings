@@ -106,7 +106,6 @@ class RolesController extends Controller
             $role->name = $request->name;
             $role->details = $request->details;
             $role->status = $request->status;
-            $role->created_by = $request->user()->id;
             $role->updated_by = $request->user()->id;
             $role->save();
 
