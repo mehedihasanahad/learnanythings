@@ -2,7 +2,7 @@
 @section('admin_title', 'Dashboard')
 @section('admin_pages')
     <div class="my-4 flex justify-end">
-        <a href="{{route('permissions.create')}}" class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Create User</a>
+        <a href="{{route('permissions.create')}}" class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Create Permission</a>
     </div>
     <div class="p-4 rounded-xl shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)] overflow-y-auto">
         <table id="myTable" class="table table-striped table-bordered dt-responsive" style="width: 100%;">

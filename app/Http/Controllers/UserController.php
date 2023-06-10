@@ -120,7 +120,7 @@ class UserController extends Controller
             $user->updated_by = Auth::user()->id;
             $user->save();
 
-            return redirect()->route('users.index')->with('success', 'User created.');
+            return redirect()->route('users.index')->with('success', 'User Updated.');
 //        } catch (\Exception $e) {
 //            return redirect()->route('permissions.index')->with('error', 'User action failed [U-002]');
 //        }
