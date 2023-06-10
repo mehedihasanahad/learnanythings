@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class TagController extends Controller
 {
@@ -23,7 +25,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.tags.create');
     }
 
     /**
@@ -34,7 +36,41 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//       try {
+           $request->validate([
+               'name' => 'required',
+               'bullet_color' => 'required',
+               'is_featured' => 'required',
+               'tag_img' => 'required|mimes:png,jpg,jpeg,webp',
+               'status' => 'required',
+           ], [
+               'name.required' => 'Tag name is required',
+               'role_id.required' => 'Tag marker color is required',
+               'is_featured.required' => 'Featured status is required',
+               'tag_img.required' => 'Tag image is required',
+               'tag_img.mimes' => 'Image must be in JPG, PNG, JPEG OR WEBP format',
+           ]);
+
+           $bigImg = resizeImageAndMoveToDirectories($request->file('tag_img'), 'uploads/tags', 1200, 807, 'LEARN-');
+           $midImg = resizeImageAndMoveToDirectories($request->file('tag_img'), 'uploads/tags', 600, 403, 'LEARN-');
+
+           $tag = new Tag();
+           $tag->name = $request->name;
+           $tag->details = $request->description;
+           $tag->bullet_color = $request->bullet_color;
+           $tag->image = ($bigImg['status'] === 200) ? $bigImg['imagePath'] : null;
+           $tag->small_img = ($midImg['status'] === 200) ? $midImg['imagePath'] : null;
+           $tag->is_featured = $request->is_featured;
+           $tag->status = $request->status;
+           $tag->created_by = auth()->user()->id;
+           $tag->updated_by = auth()->user()->id;
+           $tag->save();
+
+           return redirect()->route('tags.index')->with('success', 'Tag Created.');
+//       } catch (\Exception $e) {
+//           dd($e->getMessage(),$e->getFile(), $e->getLine());
+//           return redirect()->route('tags.index')->with('error', 'Tag action failed [T-001]');
+//       }
     }
 
     /**
