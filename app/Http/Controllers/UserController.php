@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -25,7 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.users.create');
+        $roles = Role::where(['status' => 1])->get();
+        return view('admin.pages.users.create', ['roles' => $roles]);
     }
 
     /**
@@ -36,7 +40,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        try {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|unique:users',
+                'password' => 'required|min:8',
+                'role_id' => 'required',
+                'block_status' => 'required',
+            ], [
+                'name.required' => 'User name is required',
+                'role_id.required' => 'User role is required',
+            ]);
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->role = 2; // normal admin = 2; system admin = 0;
+            $user->role_id = $request->role_id;
+            $user->is_blocked = $request->block_status;
+            $user->password = Hash::make($request->password);
+            $user->created_by = Auth::user()->id;
+            $user->updated_by = Auth::user()->id;
+            $user->save();
+
+            return redirect()->route('users.index')->with('success', 'User created.');
+//        } catch (\Exception $e) {
+//            dd($e->getMessage(),$e->getFile(), $e->getLine());
+//            return redirect()->route('users.index')->with('error', 'User action failed [U-001]');
+//        }
     }
 
     /**
@@ -58,7 +89,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::where(['status' => 1])->get();
+        return view('admin.pages.users.edit', ['roles' => $roles, 'user' => $user]);
     }
 
     /**
@@ -70,7 +103,27 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+//        try {
+            $request->validate([
+                'name' => 'required',
+                'role_id' => 'required',
+                'block_status' => 'required',
+            ], [
+                'name.required' => 'User name is required',
+                'role_id.required' => 'User role is required',
+            ]);
+
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->role_id = $request->role_id;
+            $user->is_blocked = $request->block_status;
+            $user->updated_by = Auth::user()->id;
+            $user->save();
+
+            return redirect()->route('users.index')->with('success', 'User Updated.');
+//        } catch (\Exception $e) {
+//            return redirect()->route('permissions.index')->with('error', 'User action failed [U-002]');
+//        }
     }
 
     /**
@@ -84,13 +137,12 @@ class UserController extends Controller
         //
     }
 
-    public function userList() {
-        $users = User::where(['is_blocked' => 0])->orderByDesc('id');
+    public function List() {
+        $users = User::where([['role', '!=', 0]])->orderByDesc('id')->get();
         return DataTables::of($users)
             ->addColumn('action', function($row){
                 $btn = '
-                <a href="javascript:void(0)" style="border-radius: 2px; background: rgba(0, 0 ,0 , 0.5); padding: 6px; color: white;">Edit</a>
-                <a href="javascript:void(0)" style="border-radius: 2px; background: rgba(0, 0 ,0 , 0.5); padding: 6px; color: white;">View</a>';
+                <a  href="'."/users/".$row->id."/edit".'" class="edit-btn">Edit</a>';
                 return $btn;
             })
             ->rawColumns(['action'])

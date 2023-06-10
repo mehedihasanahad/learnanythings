@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
-class RolesController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -106,7 +106,6 @@ class RolesController extends Controller
             $role->name = $request->name;
             $role->details = $request->details;
             $role->status = $request->status;
-            $role->created_by = $request->user()->id;
             $role->updated_by = $request->user()->id;
             $role->save();
 
@@ -133,8 +132,8 @@ class RolesController extends Controller
         }
     }
 
-    public function roleList() {
-        $users = Role::orderByDesc('id');
+    public function List() {
+        $users = Role::orderByDesc('id')->get();
         return DataTables::of($users)
             ->addColumn('action', function($row){
                 $btn = '

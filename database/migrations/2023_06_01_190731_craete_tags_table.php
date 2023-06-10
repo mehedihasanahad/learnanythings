@@ -19,7 +19,7 @@ class CraeteTagsTable extends Migration
             $table->string('details');
             $table->string('image');
             $table->string('small_img');
-            $table->string('parent');
+            $table->unsignedInteger('parent_id')->default(0);
             $table->string('bullet_color');
             $table->tinyInteger('is_featured')->default(0);
             $table->tinyInteger('status')->default(0);
