@@ -9,7 +9,10 @@ function resizeImageAndMoveToDirectories($file, $destination, $width, $height, $
         }
         $filename = uniqid($fileNamePrefix).$file->getClientOriginalName();
         $fileStoredPath = $destination.'/'.$filename;
-        $img = Image::make($file->getRealPath())->resize($width, $height);
+        $img = Image::make($file->getRealPath())->resize($width, $height, function($constraint)
+        {
+            $constraint->aspectRatio();
+        });
         $img->save($fileStoredPath);
         return [
             'status' => 200,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Yajra\DataTables\Facades\DataTables;
 
 class TagController extends Controller
 {
@@ -45,7 +46,7 @@ class TagController extends Controller
                'status' => 'required',
            ], [
                'name.required' => 'Tag name is required',
-               'role_id.required' => 'Tag marker color is required',
+               'bullet_color.required' => 'Tag marker color is required',
                'is_featured.required' => 'Featured status is required',
                'tag_img.required' => 'Tag image is required',
                'tag_img.mimes' => 'Image must be in JPG, PNG, JPEG OR WEBP format',
@@ -92,7 +93,8 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tag = Tag::find($id);
+        return view('admin.pages.tags.edit', compact('tag'));
     }
 
     /**
@@ -104,7 +106,40 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'bullet_color' => 'required',
+            'is_featured' => 'required',
+            'tag_img' => 'mimes:png,jpg,jpeg,webp',
+            'status' => 'required',
+        ], [
+            'name.required' => 'Tag name is required',
+            'bullet_color.required' => 'Tag marker color is required',
+            'is_featured.required' => 'Featured status is required',
+            'tag_img.mimes' => 'Image must be in JPG, PNG, JPEG OR WEBP format',
+        ]);
+
+        $tag = Tag::find($id);
+        $tag->name = $request->name;
+        $tag->details = $request->description;
+        $tag->bullet_color = $request->bullet_color;
+        if ($request->file('tag_img')) {
+            $bigImg = resizeImageAndMoveToDirectories($request->file('tag_img'), 'uploads/tags', 1200, 807, 'LEARN-');
+            $midImg = resizeImageAndMoveToDirectories($request->file('tag_img'), 'uploads/tags', 600, 403, 'LEARN-');
+
+            $tag->image = ($bigImg['status'] === 200) ? $bigImg['imagePath'] : null;
+            $tag->small_img = ($midImg['status'] === 200) ? $midImg['imagePath'] : null;
+        } else {
+            $tag->image = $request->image_path;
+            $tag->small_img = $request->image_path_small;
+        }
+        $tag->is_featured = $request->is_featured;
+        $tag->status = $request->status;
+        $tag->created_by = auth()->user()->id;
+        $tag->updated_by = auth()->user()->id;
+        $tag->save();
+
+        return redirect()->route('tags.index')->with('success', 'Tag Updated.');
     }
 
     /**
@@ -118,26 +153,20 @@ class TagController extends Controller
         //
     }
 
-    public function List() {
-        $permissions = Permission::leftJoin('roles', 'permissions.role_id', '=', 'roles.id')
-            ->orderByDesc('id')
-            ->get([
-                'permissions.*',
-                'roles.name as role_name'
-            ]);
-
-        return DataTables::of($permissions)
-            ->addColumn('action', function($row){
-                $btn = '
-                <a href="'."/permissions/".$row->id."/edit".'" class="edit-btn">Edit</a>
-                <form style="display: inline-block" action="'."/permissions/".$row->id.'" method="POST">
-                <input type="hidden" name="_token" value="'.csrf_token().'"/>
-                <input type="hidden" name="_method" value="DELETE"/>
-                <button class="delete-btn">Delete</button>
-                </form>';
-                return $btn;
+    public function List()
+    {
+        $users = Tag::orderByDesc('id')->get();
+        return DataTables::of($users)
+            ->addColumn('image', function($row) {
+                return '<img src="'.$row->small_img.'" style="width: 60px; height: 60px; object-fit:cover">';
             })
-            ->rawColumns(['action'])
+            ->addColumn('markerColor', function($row) {
+                return '<span style="padding: 5px 40px; background: '.$row->bullet_color.'"></span>';
+            })
+            ->addColumn('action', function ($row) {
+                return '<a  href="' . "/tags/" . $row->id . "/edit" . '" class="edit-btn">Edit</a>';
+            })
+            ->rawColumns(['action', 'image', 'markerColor'])
             ->addIndexColumn()
             ->make(true);
     }
