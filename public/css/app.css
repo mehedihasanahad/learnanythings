@@ -1711,6 +1711,9 @@ select {
 .h-screen {
   height: 100vh;
 }
+.max-h-14 {
+  max-height: 3.5rem;
+}
 .max-h-\[25rem\] {
   max-height: 25rem;
 }
@@ -3111,6 +3114,10 @@ select {
 
 .h-screen {
   height: 100vh;
+}
+
+.max-h-14 {
+  max-height: 3.5rem;
 }
 
 .max-h-\[25rem\] {

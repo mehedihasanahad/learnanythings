@@ -26,6 +26,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('tags', 'TagController');
+    Route::resource('blogs', 'BlogController');
 
 
 
