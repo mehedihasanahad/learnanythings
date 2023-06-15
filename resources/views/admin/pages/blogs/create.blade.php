@@ -21,8 +21,8 @@
 
             <label class="block" for="content_type"> Content Type <span class="text-rose-500">*</span>
                 <select class="block rounded form-select w-full" id="content_type" name="content_type">
-                    <option value="0">Default</option>
-                    <option value="1">List</option>
+                    <option value="1">Default</option>
+                    <option value="2">List</option>
                 </select>
                 @error('content_type')
                     <p class="text-red-700">{{ $message }}</p>
@@ -31,8 +31,8 @@
 
             <label class="block" for="template"> Template <span class="text-rose-500">*</span>
                 <select class="block rounded form-select w-full" id="template" name="template">
-                    <option value="0">Default</option>
-                    <option value="1">List</option>
+                    <option value="1">Default</option>
+                    <option value="2">List</option>
                 </select>
                 @error('template')
                 <p class="text-red-700">{{ $message }}</p>
@@ -59,9 +59,9 @@
                 @enderror
             </label>
 
-            <label class="block" for="tag_img"> Image <span class="text-rose-500">*</span>
-                <input class="form-input rounded w-full" id="tag_img" type="file" name="tag_img" accept="image/*">
-                @error('tag_img')
+            <label class="block" for="blog_img"> Image <span class="text-rose-500">*</span>
+                <input class="form-input rounded w-full" id="blog_img" type="file" name="blog_img" accept="image/*">
+                @error('blog_img')
                 <p class="text-red-700">{{ $message }}</p>
                 @enderror
             </label>
@@ -86,7 +86,7 @@
             </label>
 
             <div class="flex items-end justify-end gap-x-2">
-                <a href="{{route('tags.index')}}" class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Back</a>
+                <a href="{{route('blogs.index')}}" class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Back</a>
                 <button class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Create</button>
             </div>
         </div>

@@ -22,6 +22,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/roles/list', 'RoleController@List');
     Route::get('/permissions/list', 'PermissionController@List');
     Route::get('/tags/list', 'TagController@List');
+    Route::get('/blogs/list', 'BlogController@List');
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');

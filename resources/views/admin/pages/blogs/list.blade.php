@@ -9,9 +9,10 @@
             <thead>
             <tr>
                 <th>SL</th>
-                <th>Name</th>
+                <th>Title</th>
                 <th>Image</th>
-                <th>Marker Color</th>
+                <th>Content Type</th>
+                <th>Template</th>
                 <th>Featured</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -22,23 +23,24 @@
     </div>
     @push('admin_script')
         <script>
-            {{--$('#myTable').DataTable( {--}}
-            {{--    processing: true,--}}
-            {{--    serverSide: true,--}}
-            {{--    ajax: {--}}
-            {{--        url: '{{url("/tags/list")}}',--}}
-            {{--        method: 'GET',--}}
-            {{--    },--}}
-            {{--    columns: [--}}
-            {{--        {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },--}}
-            {{--        {data: 'name'},--}}
-            {{--        {data: 'image', name: 'image', orderable: false, searchable: false},--}}
-            {{--        {data: 'markerColor', orderable: false, searchable: false},--}}
-            {{--        {data: 'featured'},--}}
-            {{--        {data: 'boolstatus'},--}}
-            {{--        {data: 'action', name: 'action', orderable: false, searchable: false},--}}
-            {{--    ]--}}
-            {{--});--}}
+            $('#myTable').DataTable( {
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{url("/blogs/list")}}',
+                    method: 'GET',
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    {data: 'title'},
+                    {data: 'image', name: 'image', orderable: false, searchable: false},
+                    {data: 'contenttype'},
+                    {data: 'template'},
+                    {data: 'featured'},
+                    {data: 'boolstatus'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ]
+            });
         </script>
     @endpush
 @endsection

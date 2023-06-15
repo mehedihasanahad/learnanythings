@@ -135,7 +135,6 @@ class TagController extends Controller
         }
         $tag->is_featured = $request->is_featured;
         $tag->status = $request->status;
-        $tag->created_by = auth()->user()->id;
         $tag->updated_by = auth()->user()->id;
         $tag->save();
 
@@ -155,8 +154,8 @@ class TagController extends Controller
 
     public function List()
     {
-        $users = Tag::orderByDesc('id')->get();
-        return DataTables::of($users)
+        $tags = Tag::orderByDesc('id')->get();
+        return DataTables::of($tags)
             ->addColumn('image', function($row) {
                 return '<img src="'.$row->small_img.'" style="width: 60px; height: 60px; object-fit:cover">';
             })
