@@ -43,13 +43,8 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 
         //Client routes
-        Route::get('/', function () {
-            return view('pages.hero');
-        });
-        Route::get('/tag/{tag_name}', function (Request $request) {
-            $title = $request->tag_name;
-            return view('pages.tag', compact('title'));
-        });
+        Route::get('/', 'Web\WebController@index');
+        Route::get('/tag/{id}', 'Web\WebController@individualTag');
 
         Route::get('/topic/{name}', function (Request $request) {
             $title = 'Agenda';

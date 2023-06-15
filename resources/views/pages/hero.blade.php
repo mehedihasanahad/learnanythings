@@ -16,13 +16,13 @@
     <div class="mt-10">
         <h1 class="text-xl font-semibold tracking-wide">POPULAR TAGS</h1>
         <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-2 mt-2">
-            @foreach([1,2,3,4,5,6,7,8] as $key => $value)
+            @foreach($tags as $key => $tag)
                 <div class="relative hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
-                    <a href="{{URL::to('/tag/'.$value)}}">
-                        <img src="{{asset('assets/static/images/category.jpg')}}" class="h-24 w-full object-cover rounded-2xl"/>
+                    <a href="{{URL::to('/tag/'.\Illuminate\Support\Facades\Crypt::encryptString($tag->id))}}">
+                        <img src="{{url($tag->small_img)}}" class="h-24 w-full object-cover rounded-2xl"/>
                     </a>
                     <h1 class="absolute bottom-[5%] left-[5%] bg-slate-200 py-1 px-3.5 rounded-[20px] font-thin text-sm">
-                        Food
+                        {{$tag->name}}
                     </h1>
                 </div>
             @endforeach

@@ -8,7 +8,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-slate-50 font-regular">
-    <header id="header" class="h-12 mt-4 lg:mt-10 sticky top-0 z-50">
+    <header id="header" class="h-fit sticky top-0 z-50 bg-[#F8FAFC] border-b-2 pb-2">
         @includeIf('subviews.layout.header')
     </header>
     <main>

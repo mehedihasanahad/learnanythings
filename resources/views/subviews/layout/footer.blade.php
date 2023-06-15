@@ -46,7 +46,10 @@
             <h1 class="font-bold text-xl">Tags</h1>
             <br/>
             <div class="flex gap-2 flex-wrap">
-                @each('subviews.component.bullet_tag', [1, 2, 3, 4, 5], 'item')
+                @php
+                    $footerTag = \App\Models\Tag::where('status', 1)->get();
+                @endphp
+                @each('subviews.component.bullet_tag', $footerTag, 'tag')
             </div>
         </div>
     </div>
