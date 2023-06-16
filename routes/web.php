@@ -29,27 +29,18 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::resource('tags', 'TagController');
     Route::resource('blogs', 'BlogController');
 
-
-
     // Route without authenticated
     Route::withoutMiddleware('auth')->group(function() {
         // Authenticator Routes
         Route::get('/register', 'LoginController@register')->name('register');
         Route::post('/signin', 'LoginController@signin')->name('signin');
         Route::get('/logout', 'LoginController@logout')->name('logout');
-
-
         Route::resource('login', 'LoginController')->only(['index', 'store']);
-
 
         //Client routes
         Route::get('/', 'Web\WebController@index');
         Route::get('/tag/{id}', 'Web\WebController@individualTag');
-
-        Route::get('/topic/{name}', function (Request $request) {
-            $title = 'Agenda';
-            return view('pages.details', compact('title'));
-        })->name('blog');
+        Route::get('/blog/{id}', 'Web\WebController@individualBlog')->name('blog');
     });
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Yajra\DataTables\Facades\DataTables;
 
 class BlogController extends Controller
@@ -99,7 +100,8 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        $blog = Blog::find($id);
+        $decryptId = Crypt::decryptString($id);
+        $blog = Blog::find($decryptId);
         $tags = Tag::where('status', 1)->get();
         return view('admin.pages.blogs.edit', compact('blog', 'tags'));
     }
@@ -137,7 +139,7 @@ class BlogController extends Controller
         $blog->content_type = $request->content_type;
         $blog->template = $request->template;
         $blog->is_featured = $request->is_featured;
-        if ($request->file('tag_img')) {
+        if ($request->file('blog_img')) {
             $bigImg = resizeImageAndMoveToDirectories($request->file('blog_img'), 'uploads/blogs', 1200, 807, 'LEARN-');
             $smallImg = resizeImageAndMoveToDirectories($request->file('blog_img'), 'uploads/blogs', 600, 403, 'LEARN-');
 
@@ -175,7 +177,7 @@ class BlogController extends Controller
                 return '<img src="'.$row->small_img.'" style="width: 60px; height: 60px; object-fit:cover">';
             })
             ->addColumn('action', function ($row) {
-                return '<a  href="' . "/blogs/" . $row->id . "/edit" . '" class="edit-btn">Edit</a>';
+                return '<a  href="' . "/blogs/" . Crypt::encryptString($row->id) . "/edit" . '" class="edit-btn">Edit</a>';
             })
             ->rawColumns(['action', 'image', 'markerColor'])
             ->addIndexColumn()

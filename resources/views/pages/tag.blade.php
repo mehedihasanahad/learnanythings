@@ -24,10 +24,10 @@
             </div>
             {{--body part--}}
             <div class="mt-10">
-                <p class="text-sm">11 POSTS</p>
+                <p class="text-sm">{{$totalBlog}} POSTS</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-2">
-                    @foreach([1,2,3,4,5,6] as $key => $value)
-                        @includeIf('subviews.component.card')
+                    @foreach($blogs as $bKey => $blog)
+                        @includeIf('subviews.component.card', ['sigleBlog' => $blog])
                     @endforeach
                 </div>
                 <div class="flex justify-center my-8">

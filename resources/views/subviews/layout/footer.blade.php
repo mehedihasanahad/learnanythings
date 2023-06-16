@@ -18,12 +18,15 @@
         <div>
             <h1 class="font-bold text-xl">Latest posts</h1>
             <br/>
-            @foreach([1,2,3] as $index=>$value)
+            @php
+                $letestblogs = \App\Models\Blog::where(['status' => 1,])->orderByDesc('id')->limit(3)->get(['id', 'title', 'small_img']);
+            @endphp
+            @foreach($letestblogs as $bIndex => $latestBlog)
                 <article class="flex gap-x-1 mb-6">
-                    <img class="w-20 h-20 object-cover rounded-md" src="{{asset('assets/static/images/dummy.jpeg')}}">
+                    <img class="w-20 h-20 object-cover rounded-md" src="{{url($latestBlog->small_img)}}">
                     <h3 class="ml-2">
-                        <a href="javascript:void(0)" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
-                            Autumn is a second spring when every leaf is a flower
+                        <a href="{{route('blog', Crypt::encryptString($latestBlog->id))}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
+                            {{$latestBlog->title}}
                         </a>
                         <div>
                             <svg class="h-4 w-4 inline-block opacity-50 mr-1.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
@@ -54,6 +57,6 @@
         </div>
     </div>
     <p class="pb-8">
-        &copy; 2023 Neon - All right Reserved. Proudly Published with Ghost
+        &copy; 2023 Learn - All right Reserved. Proudly Published with Ghost
     </p>
 </div>
