@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -89,7 +90,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $decodeId = Crypt::decryptString($id);
+        $user = User::find($decodeId);
         $roles = Role::where(['status' => 1])->get();
         return view('admin.pages.users.edit', ['roles' => $roles, 'user' => $user]);
     }
@@ -104,6 +106,9 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 //        try {
+
+            $decodeId = Crypt::decryptString($id);
+
             $request->validate([
                 'name' => 'required',
                 'role_id' => 'required',
@@ -113,7 +118,7 @@ class UserController extends Controller
                 'role_id.required' => 'User role is required',
             ]);
 
-            $user = User::find($id);
+            $user = User::find($decodeId);
             $user->name = $request->name;
             $user->role_id = $request->role_id;
             $user->is_blocked = $request->block_status;
@@ -142,7 +147,7 @@ class UserController extends Controller
         return DataTables::of($users)
             ->addColumn('action', function($row){
                 $btn = '
-                <a  href="'."/users/".$row->id."/edit".'" class="edit-btn">Edit</a>';
+                <a  href="'."/users/".Crypt::encryptString($row->id)."/edit".'" class="edit-btn">Edit</a>';
                 return $btn;
             })
             ->rawColumns(['action'])

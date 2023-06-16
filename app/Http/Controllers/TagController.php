@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Intervention\Image\Facades\Image;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -93,7 +94,8 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        $tag = Tag::find($id);
+        $decodedId = Crypt::decryptString($id);
+        $tag = Tag::find($decodedId);
         return view('admin.pages.tags.edit', compact('tag'));
     }
 
@@ -106,6 +108,8 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $decodedId = Crypt::decryptString($id);
+
         $request->validate([
             'name' => 'required',
             'bullet_color' => 'required',
@@ -119,7 +123,7 @@ class TagController extends Controller
             'tag_img.mimes' => 'Image must be in JPG, PNG, JPEG OR WEBP format',
         ]);
 
-        $tag = Tag::find($id);
+        $tag = Tag::find($decodedId);
         $tag->name = $request->name;
         $tag->details = $request->description;
         $tag->bullet_color = $request->bullet_color;
@@ -163,7 +167,7 @@ class TagController extends Controller
                 return '<span style="padding: 5px 40px; background: '.$row->bullet_color.'"></span>';
             })
             ->addColumn('action', function ($row) {
-                return '<a  href="' . "/tags/" . $row->id . "/edit" . '" class="edit-btn">Edit</a>';
+                return '<a  href="' . "/tags/" . Crypt::encryptString($row->id) . "/edit" . '" class="edit-btn">Edit</a>';
             })
             ->rawColumns(['action', 'image', 'markerColor'])
             ->addIndexColumn()

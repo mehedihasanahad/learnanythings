@@ -1,7 +1,7 @@
 @extends('admin.layout.admin')
 @section('admin_title', 'Dashboard')
 @section('admin_pages')
-    <form action="{{route('blogs.update', $blog->id)}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('blogs.update', Crypt::encryptString($blog->id))}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="p-4 rounded-xl shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)]">

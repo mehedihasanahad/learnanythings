@@ -115,6 +115,8 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $decodedId = Crypt::decryptString($id);
+
         $request->validate([
             'title' => 'required',
             'content_type' => 'required',
@@ -133,7 +135,7 @@ class BlogController extends Controller
         ]);
 
 
-        $blog = Blog::find($id);
+        $blog = Blog::find($decodedId);
         $blog->title = $request->title;
         $blog->sub_title = $request->title;
         $blog->content_type = $request->content_type;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -80,7 +81,8 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::find($id);
+        $decodedId = Crypt::decryptString($id);
+        $role = Role::find($decodedId);
         return view('admin.pages.roles.edit', compact('role'));
     }
 
@@ -94,6 +96,8 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $decodedId = Crypt::decryptString($id);
+
             $request->validate([
                 'name' => 'required',
                 'status' => 'required',
@@ -102,7 +106,7 @@ class RoleController extends Controller
                 'status.required' => 'Status is required.'
             ]);
 
-            $role = Role::find($id);
+            $role = Role::find($decodedId);
             $role->name = $request->name;
             $role->details = $request->details;
             $role->status = $request->status;
@@ -124,7 +128,8 @@ class RoleController extends Controller
     public function destroy($id)
     {
         try {
-            Role::find($id)->delete();
+            $decodedId = Crypt::decryptString($id);
+            Role::find($decodedId)->delete();
 
             return redirect()->route('roles.index')->with('success', 'Role Deleted.');
         } catch (\Exception $e) {
@@ -137,8 +142,8 @@ class RoleController extends Controller
         return DataTables::of($users)
             ->addColumn('action', function($row){
                 $btn = '
-                <a href="'."/roles/".$row->id."/edit".'" class="edit-btn">Edit</a>
-                <form style="display: inline-block" action="'."/roles/".$row->id.'" method="POST">
+                <a href="'."/roles/".Crypt::encryptString($row->id)."/edit".'" class="edit-btn">Edit</a>
+                <form style="display: inline-block" action="'."/roles/".Crypt::encryptString($row->id).'" method="POST">
                 <input type="hidden" name="_token" value="'.csrf_token().'"/>
                 <input type="hidden" name="_method" value="DELETE"/>
                 <button class="delete-btn">Delete</button>
