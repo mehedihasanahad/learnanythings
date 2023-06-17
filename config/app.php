@@ -233,5 +233,7 @@ return [
         'DataTables'=> Yajra\DataTables\Facades\DataTables::class,
         'Image' => Intervention\Image\Facades\Image::class,
     ],
-
+    'app_settings' => [
+        'paginateFirst' => 3
+    ]
 ];
