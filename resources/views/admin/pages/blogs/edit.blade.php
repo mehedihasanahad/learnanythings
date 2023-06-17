@@ -83,6 +83,16 @@
                     @enderror
                 </label>
 
+                <label class="block"> Read Time
+                    <div class="flex gap-x-2">
+                        <input class="w-24 rounded" id="hours" name="hours" type="number" placeholder="Hour" value="{{$blog->hour}}">
+                        <input class="w-24 rounded" id="minutes" name="minutes" type="number" placeholder="Minute" value="{{$blog->minute}}">
+                        <input class="w-24 rounded" id="seconds" name="seconds" type="number" placeholder="Second" value="{{$blog->second}}">
+                    </div>
+                </label>
+            </div>
+
+            <div class="mt-3">
                 <label for="editorjs"> Content
                     <textarea id="editorjs" name="content">{{$blog->content}}</textarea>
                     @error('content')
@@ -90,7 +100,7 @@
                     @enderror
                 </label>
 
-                <div class="flex items-end justify-end gap-x-2">
+                <div class="flex items-end justify-end gap-x-2 mt-3">
                     <a href="{{route('blogs.index')}}" class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Back</a>
                     <button class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Update</button>
                 </div>

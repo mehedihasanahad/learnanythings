@@ -7,16 +7,14 @@ use App\Models\Blog;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-
+use DB;
 class WebController extends Controller
 {
     public function index() {
-        $paginateFirst = config('app.app_settings.paginateFirst');
         $tags = Tag::where('status', 1)->get(['id', 'small_img', 'name', 'bullet_color']);
-        $latestblogs = Blog::where(['status' => 1,])->orderByDesc('id')->take(3)->get();
-        $blogs = Blog::where(['status' => 1,])->select(['id', 'title', 'sub_title','tag_ids', 'small_img'])->inRandomOrder()->paginate($paginateFirst);
-        $featuredBlogs = Blog::where(['status' => 1, 'is_featured' => 1])->orderByDesc('id')->take(4)->get(['id', 'title', 'small_img']);
-        return view('pages.hero', compact('tags', 'latestblogs', 'featuredBlogs', 'blogs'));
+        $latestblogs = Blog::where(['status' => 1,])->orderByDesc('id')->take(3)->get(['*', DB::raw("Date(created_at) AS created_date")]);
+        $featuredBlogs = Blog::where(['status' => 1, 'is_featured' => 1])->orderByDesc('id')->take(4)->get(['id', 'title', 'small_img', 'hour', 'minute', 'second']);
+        return view('pages.hero', compact('tags', 'latestblogs', 'featuredBlogs'));
     }
 
     public function individualTag($id) {
@@ -51,7 +49,7 @@ class WebController extends Controller
 
     public function getBlogs() {
         $blogs = Blog::where(['status' => 1,])
-            ->select(['id', 'title', 'sub_title','tag_ids', 'small_img'])->paginate(3);
+            ->select(['id', 'title', 'sub_title','tag_ids', 'small_img', 'hour', 'minute', 'second', DB::raw("Date(created_at) AS created_date")])->paginate(3);
         $blogs->makeHidden(['boolstatus', 'featured', 'contenttype', 'template']);
 
         return response()->json([
@@ -82,7 +80,7 @@ class WebController extends Controller
     public function individualTagDataBlogs($id) {
         $decryptId = Crypt::decryptString($id);
         $blogs = Blog::where([['status', 1], ['tag_ids', 'like', "%$decryptId%"]])
-            ->select(['id', 'title', 'sub_title','tag_ids', 'small_img'])
+            ->select(['id', 'title', 'sub_title','tag_ids', 'small_img', 'hour', 'minute', 'second', DB::raw("Date(created_at) AS created_date")])
             ->paginate(3);
         $blogs->makeHidden(['boolstatus', 'featured', 'contenttype', 'template']);
 

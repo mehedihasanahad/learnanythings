@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Secure routes
     Route::get('dashboard', function () {
        return view('admin.pages.dashboard');
