@@ -97,7 +97,7 @@
                             <!-- Footer -->
                             <div class="pt-5 mt-6 border-t border-slate-200">
                                 <div class="text-sm">
-                                    Have an account? <a class="font-medium text-indigo-500 hover:text-indigo-600" href="http://127.0.0.1:8081/login">Sign In</a>
+                                    Have an account? <a class="font-medium text-indigo-500 hover:text-indigo-600" href="{{route('login.index')}}">Sign In</a>
                                 </div>
                             </div>
                         </div>

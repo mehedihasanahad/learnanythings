@@ -22,12 +22,12 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/roles/list', 'RoleController@List');
     Route::get('/permissions/list', 'PermissionController@List');
     Route::get('/tags/list', 'TagController@List');
+    Route::get('/blogs/list', 'BlogController@List');
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('tags', 'TagController');
-
-
+    Route::resource('blogs', 'BlogController');
 
     // Route without authenticated
     Route::withoutMiddleware('auth')->group(function() {
@@ -35,24 +35,12 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/register', 'LoginController@register')->name('register');
         Route::post('/signin', 'LoginController@signin')->name('signin');
         Route::get('/logout', 'LoginController@logout')->name('logout');
-
-
         Route::resource('login', 'LoginController')->only(['index', 'store']);
 
-
         //Client routes
-        Route::get('/', function () {
-            return view('pages.hero');
-        });
-        Route::get('/tag/{tag_name}', function (Request $request) {
-            $title = $request->tag_name;
-            return view('pages.tag', compact('title'));
-        });
-
-        Route::get('/topic/{name}', function (Request $request) {
-            $title = 'Agenda';
-            return view('pages.details', compact('title'));
-        })->name('blog');
+        Route::get('/', 'Web\WebController@index');
+        Route::get('/tag/{id}', 'Web\WebController@individualTag');
+        Route::get('/blog/{id}', 'Web\WebController@individualBlog')->name('blog');
     });
 });
 

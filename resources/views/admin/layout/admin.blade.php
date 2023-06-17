@@ -92,9 +92,13 @@
 </div>
 
 <!-- Scripts -->
-<script type="module" src="{{asset('js/app.js')}}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script type="module" src="{{mix('/js/app.js')}}"></script>
+<script src="{{asset('assets/scripts/js/jquery-3.6.4.min.js')}}"></script>
+<script src="{{asset('assets/scripts/js/data-tables-1.13.4.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('assets/richtexteditor/rte_theme_default.css')}}" />
+<script type="text/javascript" src="{{asset('assets/richtexteditor/rte.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/richtexteditor/plugins/all_plugins.js')}}"></script>
+<script src="{{asset('assets/js/commonFunction.js')}}"></script>
 @stack('admin_script')
 </body>
 </html>

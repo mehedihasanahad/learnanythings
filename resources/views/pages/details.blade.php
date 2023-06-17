@@ -1,11 +1,11 @@
 @extends('layout.layout')
-@section('title', $title)
+@section('title', $blog->title)
 @section('pages')
     @php
-        $template_type = 'd';
+        $template_type = $blog->template;
     @endphp
     <div class="mt-10">
-        @if($template_type === 'list')
+        @if($template_type == 2)
             @includeIf('subviews.template.list')
         @else
             @includeIf('subviews.template.default')

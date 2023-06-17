@@ -1,12 +1,12 @@
 <div class="border-[1rem] border-white rounded-xl overflow-hidden shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)]">
-    <img class="h-[25rem] w-full object-cover rounded-xl" src="{{asset('assets/static/images/main.jpeg')}}"/>
+    <img class="h-[25rem] w-full object-cover rounded-xl" src="{{url($blog->image)}}"/>
 </div>
 
 <div class="mt-10">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
             <article class="w-full mb-8 bg-white shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)] rounded-2xl p-6">
-                Content coming soon...
+                {!! $blog->content !!}
             </article>
 
             <div class="mt-10 w-full mb-8 bg-white shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)] rounded-2xl p-6">
@@ -25,13 +25,15 @@
             <div class="w-full mb-8 bg-white shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)] rounded-2xl p-6">
                 <div>
                     <h1 class="text-xl font-semibold tracking-wide">Featured Posts</h1>
-                    @foreach([1,2,3] as $index=>$value)
+                    @foreach($featuredBlogs as $fIndex => $fBlog)
                         <article class="flex gap-x-1 mb-6 mt-2">
-                            <img class="w-20 h-20 object-cover rounded-md" src="{{asset('assets/static/images/dummy.jpeg')}}">
+                            <img class="w-20 h-20 object-cover rounded-md" src="{{url($fBlog->small_img)}}">
                             <h3 class="ml-2">
-                                <a href="javascript:void(0)" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
-                                    Autumn is a second spring when every leaf is a flower
+                                {{--title--}}
+                                <a href="{{route('blog', Crypt::encryptString($fBlog->id))}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
+                                    {{$fBlog->title}}
                                 </a>
+                                {{--read time--}}
                                 <div>
                                     <svg class="h-4 w-4 inline-block opacity-50 mr-1.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
                                         <g>
@@ -53,19 +55,24 @@
                 <div class="mt-10">
                     <h1 class="text-xl font-semibold tracking-wide">Tags</h1>
                     <div class="mt-2 flex flex-wrap gap-2">
-                        @each('subviews.component.bullet_tag', [1, 2, 3, 4, 5, 6], 'item')
+                        @php
+                            $tags = \App\Models\Tag::where('status', 1)->get();
+                        @endphp
+                        @each('subviews.component.bullet_tag', $tags, 'tag')
                     </div>
                 </div>
 
                 <div class="mt-10">
                     <h1 class="text-xl font-semibold tracking-wide">Latest posts</h1>
-                    @foreach([1,2,3] as $index=>$value)
+                    @foreach($latestblogs as $lbIndex => $lBlog)
                         <article class="flex gap-x-1 mb-6 mt-2">
-                            <img class="w-20 h-20 object-cover rounded-md" src="{{asset('assets/static/images/dummy.jpeg')}}">
+                            <img class="w-20 h-20 object-cover rounded-md" src="{{url($lBlog->small_img)}}">
                             <h3 class="ml-2">
-                                <a href="javascript:void(0)" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
-                                    Autumn is a second spring when every leaf is a flower
+                                {{--image--}}
+                                <a href="{{route('blog', Crypt::encryptString($lBlog->id))}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
+                                    {{$lBlog->title}}
                                 </a>
+                                {{--read time--}}
                                 <div>
                                     <svg class="h-4 w-4 inline-block opacity-50 mr-1.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
                                         <g>

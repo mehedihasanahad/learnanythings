@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Yajra\DataTables\Facades\DataTables;
 
 class PermissionController extends Controller
@@ -88,8 +89,9 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
+        $decodedId = Crypt::decryptString($id);
         $roles = Role::where(['status' => 1])->get();
-        $permision = Permission::find($id);
+        $permision = Permission::find($decodedId);
         $permision_list = json_decode($permision->permission_lists, true);
 
         return view('admin.pages.permissions.edit', ['roles' => $roles, 'permission' => $permision, 'permission_list' => $permision_list]);
@@ -105,6 +107,8 @@ class PermissionController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $decodedId = Crypt::decryptString($id);
+
             $request->validate([
                 'name' => 'required',
                 'table_name' => 'required',
@@ -119,7 +123,7 @@ class PermissionController extends Controller
                 'role_id.required' => 'Role is required.'
             ]);
 
-            $permission = Permission::find($id);
+            $permission = Permission::find($decodedId);
             $permission->name = $request->name;
             $permission->role_id = $request->role_id;
             $permission->permission_lists = json_encode($request->permissions);
@@ -143,7 +147,8 @@ class PermissionController extends Controller
     public function destroy($id)
     {
         try {
-            Permission::find($id)->delete();
+            $decodedId = Crypt::decryptString($id);
+            Permission::find($decodedId)->delete();
 
             return redirect()->route('permissions.index')->with('success', 'Permission Deleted.');
         } catch (\Exception $e) {
@@ -162,8 +167,8 @@ class PermissionController extends Controller
         return DataTables::of($permissions)
             ->addColumn('action', function($row){
                 $btn = '
-                <a href="'."/permissions/".$row->id."/edit".'" class="edit-btn">Edit</a>
-                <form style="display: inline-block" action="'."/permissions/".$row->id.'" method="POST">
+                <a href="'."/permissions/".Crypt::encryptString($row->id)."/edit".'" class="edit-btn">Edit</a>
+                <form style="display: inline-block" action="'."/permissions/".Crypt::encryptString($row->id).'" method="POST">
                 <input type="hidden" name="_token" value="'.csrf_token().'"/>
                 <input type="hidden" name="_method" value="DELETE"/>
                 <button class="delete-btn">Delete</button>

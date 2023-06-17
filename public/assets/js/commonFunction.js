@@ -1,6 +1,14 @@
 class commonFunc {
-    getElement(id) {
+    getElementID(id) {
         return document.getElementById(id);
+    }
+
+    getElementsTag(tagName) {
+        return document.getElementsByTagName(tagName);
+    }
+
+    getElementsClass(className) {
+        return document.getElementsByClassName(className);
     }
 }
 
