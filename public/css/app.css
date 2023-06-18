@@ -1166,6 +1166,9 @@ select {
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+    html {
+        scroll-behavior: smooth;
+    }
 
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
@@ -1611,6 +1614,12 @@ select {
 }
 .mt-auto {
   margin-top: auto;
+}
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 .line-clamp-2 {
   overflow: hidden;
@@ -3002,6 +3011,13 @@ select {
 
 .mt-auto {
   margin-top: auto;
+}
+
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .line-clamp-2 {

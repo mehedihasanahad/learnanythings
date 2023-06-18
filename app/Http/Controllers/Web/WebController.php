@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\SeriesContent;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -50,7 +51,7 @@ class WebController extends Controller
     public function getBlogs() {
         $blogs = Blog::where(['status' => 1,])
             ->select(['id', 'title', 'sub_title','tag_ids', 'small_img', 'hour', 'minute', 'second', DB::raw("Date(created_at) AS created_date")])->paginate(3);
-        $blogs->makeHidden(['boolstatus', 'featured', 'contenttype', 'template']);
+        $blogs->makeHidden(['boolstatus', 'boolfeatured', 'boolcontenttype', 'booltemplate']);
 
         return response()->json([
             'blogs' => $blogs,
@@ -82,10 +83,30 @@ class WebController extends Controller
         $blogs = Blog::where([['status', 1], ['tag_ids', 'like', "%$decryptId%"]])
             ->select(['id', 'title', 'sub_title','tag_ids', 'small_img', 'hour', 'minute', 'second', DB::raw("Date(created_at) AS created_date")])
             ->paginate(3);
-        $blogs->makeHidden(['boolstatus', 'featured', 'contenttype', 'template']);
+        $blogs->makeHidden(['boolstatus', 'boolfeatured', 'boolcontenttype', 'booltemplate']);
 
         return response()->json([
             'blogs' => $blogs,
+            'status' => 200,
+            'message' => 'success'
+        ]);
+    }
+
+    public function seriesContent($id) {
+        $decryptId = Crypt::decryptString($id);
+
+        $seriesContent = SeriesContent::leftJoin('blogs', 'series_contents.blog_id', '=', 'blogs.id')
+            ->where([
+                'series_contents.blog_id' => $decryptId,
+                'series_contents.status' => 1
+            ])
+            ->get([
+                'series_contents.*',
+                'blogs.title as blog_title'
+            ]);
+
+        return response()->json([
+            'seriesContent' => $seriesContent,
             'status' => 200,
             'message' => 'success'
         ]);
