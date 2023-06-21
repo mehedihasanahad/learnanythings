@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +35,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $appends = ['rolename', 'status'];
+    protected $appends = ['status'];
 
     /**
      * The attributes that should be cast.
@@ -42,13 +43,13 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime'
     ];
 
-    public function getRoleNameAttribute() {
-        if ($this->attributes['role_id']) return Role::find($this->attributes['role_id'])->name;
-        else return null;
-    }
+//    public function getRoleNameAttribute() {
+//        if ($this->attributes['roles']) return json_decode($this->attributes['roles'], true)[0];
+//        else return null;
+//    }
 
     public function getStatusAttribute() {
         if ($this->attributes['is_blocked'] === 0) return 'Active';

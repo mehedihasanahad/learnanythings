@@ -11,7 +11,7 @@
                 <th>SL</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
+{{--                <th>Role</th>--}}
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -32,7 +32,6 @@
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     {data: 'name'},
                     {data: 'email'},
-                    {data: 'rolename'},
                     {data: 'status'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]

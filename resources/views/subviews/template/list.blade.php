@@ -33,12 +33,5 @@
     <div class="lg:col-span-3">
         <div class="w-full mb-8 bg-white shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)] rounded-2xl p-6" x-html="contentHtml"></div>
     </div>
-    @push('scripts')
-        <script>
-            (async function(){
-                return (await axios.get('/api/seriesContent/{{request()->segment(count(request()->segments()))}}')).data.seriesContent;
-            })();
-        </script>
-    @endpush
 </div>
 

@@ -10,7 +10,8 @@
             <tr>
                 <th>SL</th>
                 <th>Name</th>
-                <th>Status</th>
+                <th>Guard</th>
+{{--                <th>Status</th>--}}
                 <th>Actions</th>
             </tr>
             </thead>
@@ -29,7 +30,8 @@
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     {data: 'name'},
-                    {data: 'boolstatus'},
+                    {data: 'guard_name'},
+                    // {data: 'boolstatus'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
