@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Secure routes
     Route::get('dashboard', function () {
        return view('admin.pages.dashboard');
@@ -23,11 +23,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/permissions/list', 'PermissionController@List');
     Route::get('/tags/list', 'TagController@List');
     Route::get('/blogs/list', 'BlogController@List');
+    Route::get('/series-content/list', 'SeriesContentController@List');
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('tags', 'TagController');
     Route::resource('blogs', 'BlogController');
+    Route::resource('series-content', 'SeriesContentController');
 
     // Route without authenticated
     Route::withoutMiddleware('auth')->group(function() {

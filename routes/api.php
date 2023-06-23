@@ -22,3 +22,4 @@ Route::get('/getBlogs', 'Web\WebController@getBlogs');
 Route::get('/getEncryptedId/{id}', 'Web\WebController@encrptJsVariable');
 Route::get('/getTags', 'Web\WebController@getTags');
 Route::get('/individualTagDataBlogs/{id}', 'Web\WebController@individualTagDataBlogs');
+Route::get('/seriesContent/{id}', 'Web\WebController@seriesContent');

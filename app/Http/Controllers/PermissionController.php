@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class PermissionController extends Controller
@@ -27,8 +27,8 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        $roles = Role::where(['status' => 1])->get();
-        return view('admin.pages.permissions.create', ['roles' => $roles]);
+//        $roles = Role::where(['status' => 1])->get();
+        return view('admin.pages.permissions.create');
     }
 
     /**
@@ -39,35 +39,36 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+//        try {
             $request->validate([
                 'name' => 'required',
-                'table_name' => 'required',
-                'permissions' => 'required',
-                'status' => 'required',
-                'role_id' => 'required',
+//                'table_name' => 'required',
+//                'permissions' => 'required',
+//                'status' => 'required',
+//                'role_id' => 'required',
             ], [
                 'name.required' => 'Permission name is required.',
-                'table_name.required' => 'Table name is required.',
-                'permissions.required' => 'Permissions is required.',
-                'status.required' => 'Status is required.',
-                'role_id.required' => 'Role is required.'
+//                'table_name.required' => 'Table name is required.',
+//                'permissions.required' => 'Permissions is required.',
+//                'status.required' => 'Status is required.',
+//                'role_id.required' => 'Role is required.'
             ]);
 
             $permission = new Permission();
             $permission->name = $request->name;
-            $permission->role_id = $request->role_id;
-            $permission->permission_lists = json_encode($request->permissions);
-            $permission->table_name = $request->table_name;
-            $permission->status = $request->status;
-            $permission->created_by = $request->user()->id;
-            $permission->updated_by = $request->user()->id;
+            $permission->guard_name = 'web';
+//            $permission->role_id = $request->role_id;
+//            $permission->permission_lists = json_encode($request->permissions);
+//            $permission->table_name = $request->table_name;
+//            $permission->status = $request->status;
+//            $permission->created_by = $request->user()->id;
+//            $permission->updated_by = $request->user()->id;
             $permission->save();
 
             return redirect()->route('permissions.index')->with('success', 'Permission created.');
-        } catch (\Exception $e) {
-            return redirect()->route('permissions.index')->with('error', 'Permission action failed [P-001]');
-        }
+//        } catch (\Exception $e) {
+//            return redirect()->route('permissions.index')->with('error', 'Permission action failed [P-001]');
+//        }
     }
 
     /**
@@ -90,11 +91,11 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $decodedId = Crypt::decryptString($id);
-        $roles = Role::where(['status' => 1])->get();
+//        $roles = Role::where(['status' => 1])->get();
         $permision = Permission::find($decodedId);
-        $permision_list = json_decode($permision->permission_lists, true);
+//        $permision_list = json_decode($permision->permission_lists, true);
 
-        return view('admin.pages.permissions.edit', ['roles' => $roles, 'permission' => $permision, 'permission_list' => $permision_list]);
+        return view('admin.pages.permissions.edit', ['permission' => $permision]);
     }
 
     /**
@@ -106,36 +107,37 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+//        try {
             $decodedId = Crypt::decryptString($id);
 
             $request->validate([
                 'name' => 'required',
-                'table_name' => 'required',
-                'permissions' => 'required',
-                'status' => 'required',
-                'role_id' => 'required',
+//                'table_name' => 'required',
+//                'permissions' => 'required',
+//                'status' => 'required',
+//                'role_id' => 'required',
             ], [
                 'name.required' => 'Permission name is required.',
-                'table_name.required' => 'Table name is required.',
-                'permissions.required' => 'Permissions is required.',
-                'status.required' => 'Status is required.',
-                'role_id.required' => 'Role is required.'
+//                'table_name.required' => 'Table name is required.',
+//                'permissions.required' => 'Permissions is required.',
+//                'status.required' => 'Status is required.',
+//                'role_id.required' => 'Role is required.'
             ]);
 
             $permission = Permission::find($decodedId);
             $permission->name = $request->name;
-            $permission->role_id = $request->role_id;
-            $permission->permission_lists = json_encode($request->permissions);
-            $permission->table_name = $request->table_name;
-            $permission->status = $request->status;
-            $permission->updated_by = $request->user()->id;
+            $permission->guard_name = 'web';
+//            $permission->role_id = $request->role_id;
+//            $permission->permission_lists = json_encode($request->permissions);
+//            $permission->table_name = $request->table_name;
+//            $permission->status = $request->status;
+//            $permission->updated_by = $request->user()->id;
             $permission->save();
 
             return redirect()->route('permissions.index')->with('success', 'Permission Updated.');
-        } catch (\Exception $e) {
-            return redirect()->route('permissions.index')->with('error', 'Permission action failed [P-002]');
-        }
+//        } catch (\Exception $e) {
+//            return redirect()->route('permissions.index')->with('error', 'Permission action failed [P-002]');
+//        }
     }
 
     /**
@@ -157,12 +159,7 @@ class PermissionController extends Controller
     }
 
     public function List() {
-        $permissions = Permission::leftJoin('roles', 'permissions.role_id', '=', 'roles.id')
-            ->orderByDesc('id')
-            ->get([
-                'permissions.*',
-                'roles.name as role_name'
-            ]);
+        $permissions = Permission::orderByDesc('id')->get();
 
         return DataTables::of($permissions)
             ->addColumn('action', function($row){

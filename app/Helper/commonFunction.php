@@ -26,3 +26,8 @@ function resizeImageAndMoveToDirectories($file, $destination, $width, $height, $
         ];
     }
 }
+
+function formateDate($date) {
+    $date = DateTimeImmutable::createFromFormat('Y-m-d', $date);
+    return $date->format('F').' '.$date->format('d').','.' '.$date->format('Y');
+}

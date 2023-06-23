@@ -72,6 +72,9 @@ class BlogController extends Controller
         $blog->image = ($bigImg['status'] === 200) ? $bigImg['imagePath'] : null;
         $blog->small_img = ($smallImg['status'] === 200) ? $smallImg['imagePath'] : null;
         $blog->status = $request->status;
+        $blog->hour = $request->hours;
+        $blog->minute = $request->minutes;
+        $blog->second = $request->seconds;
         $blog->tag_ids = $request->tags;
         $blog->content = $request->get('content');
         $blog->created_by = $request->user()->id;
@@ -152,6 +155,9 @@ class BlogController extends Controller
             $blog->small_img = $request->image_path_small;
         }
         $blog->status = $request->status;
+        $blog->hour = $request->hours;
+        $blog->minute = $request->minutes;
+        $blog->second = $request->seconds;
         $blog->tag_ids = $request->tags;
         $blog->content = $request->get('content');
         $blog->updated_by = $request->user()->id;

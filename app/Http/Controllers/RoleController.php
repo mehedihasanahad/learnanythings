@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
+use DB;
 
 class RoleController extends Controller
 {
+    public function __construct() {
+        $this->middleware('permission:role-create|role-update|role-view', ['only' => ['index','show']]);
+        $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        $this->middleware('permission:role-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:role-create', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +34,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.roles.create');
+        $permissions = Permission::get();
+        return view('admin.pages.roles.create', compact('permissions'));
     }
 
     /**
@@ -38,28 +46,32 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+//        try {
             $request->validate([
                 'name' => 'required',
-                'status' => 'required',
+//                'status' => 'required',
+                'permissions' => 'required',
             ], [
                 'name.required' => 'Role name is required.',
-                'status.required' => 'Status is required.'
+//                'status.required' => 'Status is required.',
+                'permissions.required' => 'permissions is required.'
             ]);
 
             $role = new Role();
             $role->name = $request->name;
-            $role->details = $request->details;
-            $role->status = $request->status;
-            $role->created_by = $request->user()->id;
-            $role->updated_by = $request->user()->id;
+            $role->guard_name = 'web';
+//            $role->details = $request->details;
+//            $role->status = $request->status;
+//            $role->created_by = $request->user()->id;
+//            $role->updated_by = $request->user()->id;
             $role->save();
+            $role->syncPermissions($request->input('permissions'));
 
             return redirect()->route('roles.index')->with('success', 'Role created.');
-        } catch (\Exception $e) {
+//        } catch (\Exception $e) {
 //            dd($e->getMessage(),$e->getFile(), $e->getLine());
-            return redirect()->route('roles.index')->with('error', 'Role action failed [R-001]');
-        }
+//            return redirect()->route('roles.index')->with('error', 'Role action failed [R-001]');
+//        }
     }
 
     /**
@@ -83,7 +95,12 @@ class RoleController extends Controller
     {
         $decodedId = Crypt::decryptString($id);
         $role = Role::find($decodedId);
-        return view('admin.pages.roles.edit', compact('role'));
+        $permissions = Permission::get();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$decodedId)
+            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+            ->all();
+
+        return view('admin.pages.roles.edit', compact('permissions', 'rolePermissions', 'role'));
     }
 
     /**
@@ -95,28 +112,32 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+//        try {
             $decodedId = Crypt::decryptString($id);
 
             $request->validate([
                 'name' => 'required',
-                'status' => 'required',
+//                'status' => 'required',
+                'permissions' => 'required',
             ], [
                 'name.required' => 'Role name is required.',
-                'status.required' => 'Status is required.'
+//                'status.required' => 'Status is required.'
+                'permissions.required' => 'permissions is required.'
             ]);
 
             $role = Role::find($decodedId);
             $role->name = $request->name;
-            $role->details = $request->details;
-            $role->status = $request->status;
-            $role->updated_by = $request->user()->id;
+            $role->guard_name = 'web';
+//            $role->details = $request->details;
+//            $role->status = $request->status;
+//            $role->updated_by = $request->user()->id;
             $role->save();
+            $role->syncPermissions($request->input('permissions'));
 
             return redirect()->route('roles.index')->with('success', 'Role Updated.');
-        } catch (\Exception $e) {
-            return redirect()->route('roles.index')->with('error', 'Role action failed [R-002]');
-        }
+//        } catch (\Exception $e) {
+//            return redirect()->route('roles.index')->with('error', 'Role action failed [R-002]');
+//        }
     }
 
     /**

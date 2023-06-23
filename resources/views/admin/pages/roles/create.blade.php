@@ -11,18 +11,30 @@
                     <p class="text-red-700">{{ $message }}</p>
                 @enderror
             </label>
-            <label class="block" for="details"> About Role
-                <input class="form-input rounded w-full" id="details" type="text" name="details" placeholder="Only can write blog using this role.">
-            </label>
-            <label class="block" for="status"> Role Status <span class="text-rose-500">*</span>
-                <select class="block rounded form-select w-full" id="status" name="status">
-                    <option value="0">Inactive</option>
-                    <option value="1">Active</option>
+
+            <label class="block" for="permissions"> Permissions <span class="text-rose-500">*</span>
+                <select class="block rounded w-full" id="permissions" name="permissions[]" multiple>
+                    <option value="" selected disabled>Select Permissions</option>
+                    @foreach($permissions as $key => $permission)
+                        <option value="{{$permission->id}}">{{$permission->name}}</option>
+                    @endforeach
                 </select>
-                @error('status')
+                @error('permissions')
                 <p class="text-red-700">{{ $message }}</p>
                 @enderror
             </label>
+{{--            <label class="block" for="details"> About Role--}}
+{{--                <input class="form-input rounded w-full" id="details" type="text" name="details" placeholder="Only can write blog using this role.">--}}
+{{--            </label>--}}
+{{--            <label class="block" for="status"> Role Status <span class="text-rose-500">*</span>--}}
+{{--                <select class="block rounded form-select w-full" id="status" name="status">--}}
+{{--                    <option value="0">Inactive</option>--}}
+{{--                    <option value="1">Active</option>--}}
+{{--                </select>--}}
+{{--                @error('status')--}}
+{{--                <p class="text-red-700">{{ $message }}</p>--}}
+{{--                @enderror--}}
+{{--            </label>--}}
             <div class="flex items-end justify-end gap-x-2">
                 <a href="{{route('roles.index')}}" class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Back</a>
                 <button class="p-2 rounded bg-slate-300 text-bg-slate-800 active:bg-slate-400 active:text-white">Create</button>

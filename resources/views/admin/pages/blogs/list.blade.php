@@ -34,9 +34,9 @@
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     {data: 'title'},
                     {data: 'image', name: 'image', orderable: false, searchable: false},
-                    {data: 'contenttype'},
-                    {data: 'template'},
-                    {data: 'featured'},
+                    {data: 'boolcontenttype'},
+                    {data: 'booltemplate'},
+                    {data: 'boolfeatured'},
                     {data: 'boolstatus'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]

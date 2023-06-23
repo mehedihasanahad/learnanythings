@@ -14,10 +14,10 @@
                 </label>
 
                 <label class="block" for="role_id"> Role <span class="text-rose-500">*</span>
-                    <select class="block rounded form-select w-full" id="role_id" name="role_id">
+                    <select class="block rounded form-select w-full" id="role_id" name="roles[]">
                         <option value="" selected disabled>Select Role</option>
                         @foreach($roles as $key => $role)
-                            <option value="{{$role->id}}" {{($user->role_id == $role->id) ?'selected':''}}>{{$role->name}}</option>
+                            <option value="{{$key}}" {{in_array($role, $userRoles) ? 'selected':''}}>{{$role}}</option>
                         @endforeach
                     </select>
                     @error('role_id')

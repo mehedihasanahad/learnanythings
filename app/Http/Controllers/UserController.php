@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use Spatie\Permission\Models\Role;
+use DB;
 
 class UserController extends Controller
 {
@@ -29,7 +30,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::where(['status' => 1])->get();
+//        $roles = Role::get();
+        $roles = Role::pluck('name','name')->all();
         return view('admin.pages.users.create', ['roles' => $roles]);
     }
 
@@ -46,23 +48,22 @@ class UserController extends Controller
                 'name' => 'required',
                 'email' => 'required|unique:users',
                 'password' => 'required|min:8',
-                'role_id' => 'required',
+                'roles' => 'required',
                 'block_status' => 'required',
             ], [
                 'name.required' => 'User name is required',
-                'role_id.required' => 'User role is required',
+                'roles.required' => 'User role is required',
             ]);
-
-            $user = new User();
+        $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->role = 2; // normal admin = 2; system admin = 0;
-            $user->role_id = $request->role_id;
+//            $user->roles = json_encode($request->roles);
             $user->is_blocked = $request->block_status;
             $user->password = Hash::make($request->password);
             $user->created_by = Auth::user()->id;
             $user->updated_by = Auth::user()->id;
             $user->save();
+            $user->assignRole($request->input('roles'));
 
             return redirect()->route('users.index')->with('success', 'User created.');
 //        } catch (\Exception $e) {
@@ -92,8 +93,9 @@ class UserController extends Controller
     {
         $decodeId = Crypt::decryptString($id);
         $user = User::find($decodeId);
-        $roles = Role::where(['status' => 1])->get();
-        return view('admin.pages.users.edit', ['roles' => $roles, 'user' => $user]);
+        $roles = Role::pluck('name','name')->all();
+        $userRoles = $user->roles->pluck('name','name')->all();
+        return view('admin.pages.users.edit', ['userRoles' => $userRoles, 'user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -106,24 +108,26 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 //        try {
-
             $decodeId = Crypt::decryptString($id);
 
             $request->validate([
                 'name' => 'required',
-                'role_id' => 'required',
+                'roles' => 'required',
                 'block_status' => 'required',
             ], [
                 'name.required' => 'User name is required',
-                'role_id.required' => 'User role is required',
+                'roles.required' => 'User role is required',
             ]);
 
             $user = User::find($decodeId);
             $user->name = $request->name;
-            $user->role_id = $request->role_id;
+//            $user->roles = json_encode($request->roles);
             $user->is_blocked = $request->block_status;
             $user->updated_by = Auth::user()->id;
             $user->save();
+
+            DB::table('model_has_roles')->where('model_id',$decodeId)->delete();
+            $user->assignRole($request->input('roles'));
 
             return redirect()->route('users.index')->with('success', 'User Updated.');
 //        } catch (\Exception $e) {
@@ -143,7 +147,7 @@ class UserController extends Controller
     }
 
     public function List() {
-        $users = User::where([['role', '!=', 0]])->orderByDesc('id')->get();
+        $users = User::orderByDesc('id')->get();
         return DataTables::of($users)
             ->addColumn('action', function($row){
                 $btn = '

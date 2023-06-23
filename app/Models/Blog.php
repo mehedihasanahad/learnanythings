@@ -9,7 +9,7 @@ class Blog extends Model
 {
     use HasFactory;
 
-    protected $appends = ['boolstatus', 'featured', 'contenttype', 'template'];
+    protected $appends = ['boolstatus', 'boolfeatured', 'boolcontenttype', 'booltemplate'];
 
     protected $casts = [
         'tag_ids' => 'array',
@@ -21,19 +21,19 @@ class Blog extends Model
         else return 'Inactive';
     }
 
-    public function getFeaturedAttribute()
+    public function getBoolFeaturedAttribute()
     {
         if($this->attributes['is_featured']) return 'Yes';
         else return 'No';
     }
 
-    public function getContentTypeAttribute()
+    public function getBoolContentTypeAttribute()
     {
         if($this->attributes['content_type'] === 1) return 'Default';
         elseif($this->attributes['content_type'] === 2) return 'List';
     }
 
-    public function getTemplateAttribute()
+    public function getBoolTemplateAttribute()
     {
         if($this->attributes['template'] === 1) return 'Default';
         elseif($this->attributes['template'] === 2) return 'List';
