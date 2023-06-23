@@ -14,7 +14,6 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('roles', 100)->nullable();
             $table->tinyInteger('is_blocked')->default(0)->comment('1 = blocked; 0 = alive;');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
