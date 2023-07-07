@@ -19,13 +19,13 @@
             <h1 class="font-bold text-xl">Latest posts</h1>
             <br/>
             @php
-                $letestblogs = \App\Models\Blog::where(['status' => 1,])->orderByDesc('id')->limit(3)->get(['id', 'title', 'small_img']);
+                $letestblogs = \App\Models\Blog::where(['status' => 1,])->orderByDesc('id')->limit(3)->get(['id', 'title', 'small_img', 'content_type']);
             @endphp
             @foreach($letestblogs as $bIndex => $latestBlog)
                 <article class="flex gap-x-1 mb-6">
                     <img class="w-20 h-20 object-cover rounded-md" src="{{url($latestBlog->small_img)}}">
                     <h3 class="ml-2">
-                        <a href="{{route('blog', Crypt::encryptString($latestBlog->id))}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
+                        <a href="{{route('blog', ['id' => Crypt::encryptString($latestBlog->id), 'content_type' => $latestBlog->content_type])}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
                             {{$latestBlog->title}}
                         </a>
                         <div>
