@@ -36,7 +36,7 @@
                     <article class="w-full mb-8 bg-white shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)] rounded-2xl p-6 md:grid grid-cols-5 gap-x-8">
                         {{--blog image--}}
                         <div class="col-span-2 overflow-hidden rounded-2xl">
-                            <a href="{{route('blog', Crypt::encryptString($blog->id))}}">
+                            <a href="{{route('blog', ['id' => Crypt::encryptString($blog->id), 'content_type' => $blog->content_type])}}">
                                 <img class="w-full h-64 object-cover hover:scale-105 transition duration-500" src="{{url('/'.$blog->small_img)}}">
                             </a>
                         </div>
@@ -53,7 +53,7 @@
                             </div>
                             {{--title--}}
                             <h1 class="mt-2 text-3xl font-bold">
-                                <a href="{{route('blog', Crypt::encryptString($blog->id))}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
+                                <a href="{{route('blog', ['id' => Crypt::encryptString($blog->id), 'content_type' => $blog->content_type])}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
                                     {{$blog->title}}
                                 </a>
                             </h1>
@@ -104,7 +104,7 @@
                             <img class="w-20 h-20 object-cover rounded-md" src="{{url($fBlog->small_img)}}">
                             <h3 class="ml-2">
                                 {{--title--}}
-                                <a href="{{URL::to('/tag/'.Crypt::encryptString($fBlog->id))}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
+                                <a href="{{route('blog', ['id' => Crypt::encryptString($fBlog->id), 'content_type' => $fBlog->content_type])}}" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2">
                                     {{$fBlog->title}}
                                 </a>
                                 {{--read time--}}

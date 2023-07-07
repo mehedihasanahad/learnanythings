@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'Web\WebController@index');
         Route::get('/tag/{id}', 'Web\WebController@individualTag');
         Route::get('/blog/{id}', 'Web\WebController@individualBlog')->name('blog');
+        Route::get('/series_content/{blog_id}/{id}', 'Web\WebController@individualSeriesContent')->name('seriesContent');
     });
 });
 

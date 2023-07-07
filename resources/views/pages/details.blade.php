@@ -6,7 +6,8 @@
     @endphp
     <div class="mt-10">
         @if($template_type == 2)
-            @includeIf('subviews.template.list')
+{{--            @includeIf('subviews.template.list')--}}
+            @includeIf('subviews.template.listV2')
         @else
             @includeIf('subviews.template.default')
         @endif

@@ -1,7 +1,7 @@
 <article class="w-full bg-white shadow-[1px_1px_10px_2px_rgba(0,0,0,0.1)] rounded-2xl p-6">
     {{--blog image--}}
     <div class="col-span-2 overflow-hidden rounded-2xl">
-        <a :href="'/blog/'+ (await axios.get('/api/getEncryptedId/'+blog.id)).data.encryptedId">
+        <a :href="'/blog/'+ (await axios.get('/api/getEncryptedId/'+blog.id)).data.encryptedId+'?content_type='+blog.content_type">
             <img class="w-full h-60 object-cover hover:scale-105 transition duration-500" :src="'/'+blog.small_img">
         </a>
     </div>
@@ -14,7 +14,7 @@
         </div>
         {{--title--}}
         <h1 class="mt-2 text-xl font-bold">
-            <a :href="'/blog/'+ (await axios.get('/api/getEncryptedId/'+blog.id)).data.encryptedId" x-text="blog.title" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2"></a>
+            <a :href="'/blog/'+ (await axios.get('/api/getEncryptedId/'+blog.id)).data.encryptedId+'?content_type='+blog.content_type" x-text="blog.title" class="decoration-pink-500 hover:underline underline-offset-4 decoration-2 overflow-ellipsis line-clamp-2"></a>
         </h1>
         {{--sub title--}}
         <p class="mt-2 overflow-ellipsis line-clamp-3" x-text="blog.sub_title"></p>
