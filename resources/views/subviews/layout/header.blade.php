@@ -1,4 +1,4 @@
-<div class="flex justify-between lg:w-[1200px] lg:m-auto px-2" title="flower">
+<div class="flex justify-between lg:w-[1200px] xl:w-[90%] max-w-[1600px] lg:m-auto px-2" title="flower">
     <a href="{{URL::to('/')}}" id="logo">
         <img src="{{asset('assets/static/images/logo.svg')}}" alt="">
     </a>
