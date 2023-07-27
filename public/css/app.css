@@ -1817,6 +1817,9 @@ select {
 .max-w-9xl {
   max-width: 96rem;
 }
+.max-w-\[1600px\] {
+  max-width: 1600px;
+}
 .max-w-sm {
   max-width: 24rem;
 }
@@ -3277,6 +3280,10 @@ select {
 
 .max-w-9xl {
   max-width: 96rem;
+}
+
+.max-w-\[1600px\] {
+  max-width: 1600px;
 }
 
 .max-w-sm {
@@ -5020,6 +5027,10 @@ select {
   .xl\:block {
     display: block;
   }
+
+  .xl\:w-\[90\%\] {
+    width: 90%;
+  }
 }
 
 @media (min-width: 1536px) {
@@ -5618,6 +5629,10 @@ select {
 
   .xl\:block {
     display: block;
+  }
+
+  .xl\:w-\[90\%\] {
+    width: 90%;
   }
 }
 

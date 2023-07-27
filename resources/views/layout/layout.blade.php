@@ -13,7 +13,7 @@
     </header>
 
     <main>
-        <section class="lg:w-[1200px] lg:m-auto px-2">
+        <section class="lg:w-[1200px] xl:w-[90%] max-w-[1600px] lg:m-auto px-2">
             @yield('pages')
         </section>
     </main>
